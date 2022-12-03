@@ -1,18 +1,18 @@
+import java.util.ArrayList;
+
 public class Shape {
-    private String color;
-    private ShapeType type;
     private int x;
     private int y;
-    private final Block[] parts;
+    private final ArrayList<Block> parts;
 
     public Shape(ShapeType type, int x, int y, String color) {
         this.x = x;
         this.y = y;
-        this.type = type;
-        this.parts = new Block[4];
+        this.parts = new ArrayList<Block>();
         for (int i = 0; i < 4; i++) {
-            this.parts[i] = new Block(type.getPositions()[i][0] + x, type.getPositions()[i][1] + y, color);
+            this.parts.add(new Block(type.getPositions()[i][0] + x, type.getPositions()[i][1] + y, color));
         }
+
     }
 
     public int getX() {
@@ -21,6 +21,10 @@ public class Shape {
 
     public int getY() {
         return this.y;
+    }
+
+    public ArrayList<Block> getParts() {
+        return parts;
     }
 
     public void moveDown() {
@@ -46,7 +50,7 @@ public class Shape {
 
     public boolean collideWithGround() {
         for (Block current : this.parts) {
-            if (current.getY() + 1 >= 20) {
+            if (current.getY() + 1 >= Tetris.SCREEN_HEIGHT) {
                 return true;
             }
         }
@@ -56,9 +60,9 @@ public class Shape {
     public CollisionSide collideWithSide() {
         for (Block current : this.parts) {
             if (current.getX() - 1 < 0) {
-                return CollisionSide.LEFT;
+               return CollisionSide.LEFT;
             }
-            if (current.getX() + 1 >= 10) {
+            if (current.getX() + 1 >= Tetris.SCREEN_WIDTH) {
                 return CollisionSide.RIGHT;
             }
         }
