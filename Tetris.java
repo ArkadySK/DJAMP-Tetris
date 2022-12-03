@@ -46,56 +46,6 @@ public class Tetris {
         this.currentShape.moveDown();
     }
 
-    private void moveLineDownFromIndex(int firstLineToMove)  {
-        for (Shape shape : this.shapes) {
-            ArrayList<Block> parts = shape.getParts();
-
-            for (Block block : parts) {
-                if (block.getY() <= firstLineToMove)
-                    block.moveDown();
-            }
-        }
-    }
-
-    private void clearLine(int line) {
-        for (Shape shape : this.shapes) {
-            ArrayList<Block> parts = shape.getParts();
-            ArrayList<Block> partsToRemove = new ArrayList<Block>();
-            
-            for (Block block : parts) {
-                if (block.getY() == line)
-                    partsToRemove.add(block);
-            }
-
-            for (Block block : partsToRemove) {
-                parts.remove(block);
-                block.hide();
-            }
-        }
-    }
-
-
-    private boolean isLineFull(int line)    {
-        boolean isFull = true;
-            for (int i = 0; i < Tetris.SCREEN_WIDTH; i++)  
-                if(!this.isPositionFilled(i, line))
-                    isFull = false;
-        return isFull;
-    }
-
-    private boolean isPositionFilled(int x, int y)   {
-        for (Shape shape : shapes) {
-            ArrayList<Block> parts = shape.getParts();
-            for (Block block : parts) {
-                if(block.getX() == x && block.getY() == y)
-                    return true;
-            }
-        }
-        return false;
-    }
-
-
-
     public void moveLeft() {
         if (currentShape.collideWithSide() == CollisionSide.LEFT) {
             return;
@@ -127,5 +77,52 @@ public class Tetris {
 
     public static void main(String[] args) {
         new Tetris();
+    }
+
+    private void moveLineDownFromIndex(int firstLineToMove)  {
+        for (Shape shape : this.shapes) {
+            ArrayList<Block> parts = shape.getParts();
+
+            for (Block block : parts) {
+                if (block.getY() <= firstLineToMove)
+                    block.moveDown();
+            }
+        }
+    }
+
+    private void clearLine(int line) {
+        for (Shape shape : this.shapes) {
+            ArrayList<Block> parts = shape.getParts();
+            ArrayList<Block> partsToRemove = new ArrayList<Block>();
+            
+            for (Block block : parts) {
+                if (block.getY() == line)
+                    partsToRemove.add(block);
+            }
+
+            for (Block block : partsToRemove) {
+                parts.remove(block);
+                block.hide();
+            }
+        }
+    }
+
+    private boolean isLineFull(int line)    {
+        boolean isFull = true;
+            for (int i = 0; i < Tetris.SCREEN_WIDTH; i++)  
+                if(!this.isPositionFilled(i, line))
+                    isFull = false;
+        return isFull;
+    }
+
+    private boolean isPositionFilled(int x, int y)   {
+        for (Shape shape : shapes) {
+            ArrayList<Block> parts = shape.getParts();
+            for (Block block : parts) {
+                if(block.getX() == x && block.getY() == y)
+                    return true;
+            }
+        }
+        return false;
     }
 }
