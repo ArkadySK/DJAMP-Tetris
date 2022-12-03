@@ -34,4 +34,19 @@ public class Block {
     public void setY(int y) {
         this.y = y;
     }
+
+    public void moveDown() {
+        this.y++;
+        this.square.moveVertical(BLOCK_SIZE);
+    }
+
+    public void moveRight() {
+        this.x++;
+        this.square.moveHorizontal(BLOCK_SIZE);
+    }
+
+    public void moveLeft() {
+        this.x--;
+        this.square.moveHorizontal(-BLOCK_SIZE);
+    }
 }
