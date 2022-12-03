@@ -8,6 +8,9 @@ public class Tetris {
     private Shape currentShape;
     private final Manager manager;
     private final ArrayList<Shape> shapes;
+    
+    public static final int SCREEN_WIDTH = 10;
+    public static final int SCREEN_HEIGHT = 20;
 
     public Tetris() {
         this.shapes = new ArrayList<>();
@@ -33,8 +36,53 @@ public class Tetris {
             }
         }
 
+        for (int line = 0; line < Tetris.SCREEN_HEIGHT; line++) {
+            if(this.isLineFull(line))   {
+                this.clearLine(line);
+            }
+        }
+
         this.currentShape.moveDown();
     }
+
+    private void clearLine(int line) {
+        for (Shape shape : shapes) {
+            ArrayList<Block> parts = shape.getParts();
+            ArrayList<Block> partsToRemove = new ArrayList<Block>();
+            
+            for (Block block : parts) {
+                if(block.getY() == line)
+                    partsToRemove.add(block);
+            }
+
+            for (Block block : partsToRemove) {
+                parts.remove(block);
+                block.hide();
+            }
+        }
+    }
+
+
+    private boolean isLineFull(int line)    {
+        boolean isFull = true;
+            for (int i = 0; i < Tetris.SCREEN_WIDTH; i++)  
+                if(!this.isPositionFilled(i, line))
+                    isFull = false;
+        return isFull;
+    }
+
+    private boolean isPositionFilled(int x, int y)   {
+        for (Shape shape : shapes) {
+            ArrayList<Block> parts = shape.getParts();
+            for (Block block : parts) {
+                if(block.getX() == x && block.getY() == y)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+
 
     public void moveLeft() {
         if (currentShape.collideWithSide() == CollisionSide.LEFT) {
