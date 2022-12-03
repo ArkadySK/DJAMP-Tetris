@@ -86,4 +86,10 @@ public class Shape {
         }
         return side;
     }
+
+    public void hide() {
+        for (Block block : this.getParts()) {
+            block.hide();
+        }
+    }
 }
