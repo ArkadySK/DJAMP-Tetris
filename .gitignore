@@ -1,3 +1,5 @@
 *.ctxt
 *.class
 *.jar
+.vscode/launch.json
+.vscode/settings.json
