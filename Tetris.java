@@ -120,15 +120,9 @@ public class Tetris {
         this.currentShape.moveRight();
     }
 
-    private void addNewShapeDEFAULT() {
-        this.shapes.add(this.currentShape);
-        this.currentShape = new Shape(ShapeType.values()[new Random().nextInt(7)], 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
-    }
-
-    // TODO remove this shit
     private void addNewShape() {
         this.shapes.add(this.currentShape);
-        this.currentShape = new Shape(ShapeType.O, 4, 4, this.colors[new Random().nextInt(this.colors.length)]);
+        this.currentShape = new Shape(ShapeType.values()[new Random().nextInt(7)], 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
     }
 
     public static void main(String[] args) {
