@@ -17,16 +17,20 @@ public class Tetris {
         this.isGameOver = false;
         this.shapes = new ArrayList<>();
         this.manager = new Manager();
-        this.currentShape = new Shape(ShapeType.O, 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
+        this.currentShape = new Shape(ShapeType.T, Tetris.SCREEN_WIDTH / 2 - 1, 1, this.colors[new Random().nextInt(this.colors.length)]);
         manager.manageObject(this);
     }
 
     public void tick() {
-        if(!this.isGameOver)
-            this.moveDown();
+        if(this.isGameOver)
+            return;
+        this.moveDown();
     }
 
     public void moveDown() {
+        if(this.isGameOver)
+            return;
+        
         if (currentShape.collideWithGround()) {
             this.addNewShape();
             return;
@@ -50,6 +54,9 @@ public class Tetris {
     }
 
     public void moveLeft() {
+        if(this.isGameOver)
+            return;
+        
         if (currentShape.collideWithSide() == CollisionSide.LEFT) {
             return;
         }
@@ -62,6 +69,9 @@ public class Tetris {
     }
 
     public void moveRight() {
+        if(this.isGameOver)
+            return;
+        
         if (currentShape.collideWithSide() == CollisionSide.RIGHT) {
             return;
         }
@@ -72,17 +82,19 @@ public class Tetris {
         }
         this.currentShape.moveRight();
     }
-
+    
     private void addNewShape() {
         this.shapes.add(this.currentShape);
-        int x = Tetris.SCREEN_WIDTH / 2;
-        int y = Tetris.SCREEN_HEIGHT / 2;
-
-        if (this.isPositionFilled(x, y))  {
-            this.isGameOver = true;
-            return;
+        
+        var shapeToSpawn = new Shape(ShapeType.values()[new Random().nextInt(7)], Tetris.SCREEN_WIDTH / 2 - 1, 1, this.colors[new Random().nextInt(this.colors.length)]);
+        for (Block block : shapeToSpawn.getParts()) {
+            if (this.isPositionFilled(block.getX(), block.getY()))  {
+                this.isGameOver = true;
+                return;
+            }
         }
-        this.currentShape = new Shape(ShapeType.values()[new Random().nextInt(7)], 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
+
+        this.currentShape = shapeToSpawn;
     }
 
     public static void main(String[] args) {
