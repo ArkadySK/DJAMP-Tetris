@@ -23,4 +23,25 @@ public class Shape {
         return this.y;
     }
 
+    public void moveDown() {
+        this.y++;
+        for (Block part : parts) {
+            part.moveDown();
+        }
+    }
+
+    public void moveLeft() {
+        this.x--;
+        for (Block part : parts) {
+            part.moveLeft();
+        }
+    }
+
+    public void moveRight() {
+        this.x++;
+        for (Block part : parts) {
+            part.moveRight();
+        }
+    }
+
 }
