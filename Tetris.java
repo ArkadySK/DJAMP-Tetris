@@ -8,11 +8,13 @@ public class Tetris {
     private Shape currentShape;
     private final Manager manager;
     private final ArrayList<Shape> shapes;
+    private boolean isGameOver;
     
     public static final int SCREEN_WIDTH = 10;
     public static final int SCREEN_HEIGHT = 20;
 
     public Tetris() {
+        this.isGameOver = false;
         this.shapes = new ArrayList<>();
         this.manager = new Manager();
         this.currentShape = new Shape(ShapeType.O, 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
@@ -20,7 +22,8 @@ public class Tetris {
     }
 
     public void tick() {
-        this.moveDown();
+        if(!this.isGameOver)
+            this.moveDown();
     }
 
     public void moveDown() {
@@ -72,6 +75,13 @@ public class Tetris {
 
     private void addNewShape() {
         this.shapes.add(this.currentShape);
+        int x = Tetris.SCREEN_WIDTH / 2;
+        int y = Tetris.SCREEN_HEIGHT / 2;
+
+        if (this.isPositionFilled(x, y))  {
+            this.isGameOver = true;
+            return;
+        }
         this.currentShape = new Shape(ShapeType.values()[new Random().nextInt(7)], 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
     }
 
