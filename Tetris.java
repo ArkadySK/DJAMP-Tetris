@@ -1,4 +1,6 @@
+import fri.shapesge.FontStyle;
 import fri.shapesge.Manager;
+import fri.shapesge.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -87,18 +89,41 @@ public class Tetris {
         this.shapes.add(this.currentShape);
         
         var shapeToSpawn = new Shape(ShapeType.values()[new Random().nextInt(7)], Tetris.SCREEN_WIDTH / 2 - 1, 1, this.colors[new Random().nextInt(this.colors.length)]);
+        this.currentShape = shapeToSpawn;
+
         for (Block block : shapeToSpawn.getParts()) {
             if (this.isPositionFilled(block.getX(), block.getY()))  {
-                this.isGameOver = true;
-                return;
+                this.endGame();
             }
         }
-
-        this.currentShape = shapeToSpawn;
     }
 
     public static void main(String[] args) {
         new Tetris();
+    }
+
+    private void endGame() {
+        this.isGameOver = true;
+        
+        // Skry vsetko
+        for (Shape shape : this.shapes) {
+            shape.hide();
+        }
+        this.currentShape.hide();
+
+        // UI po konci hry
+        int score = 0;
+        String gameDuration = "0:15";
+                
+        Text headerText = new Text("Koniec hry!", 60, 50);
+        headerText.changeFont("Arial", FontStyle.BOLD, 32);
+        headerText.makeVisible();
+        Text text = new Text("Vaše skóre: " + score, 20, 100);
+        text.changeFont("Arial", FontStyle.BOLD, 22);
+        text.makeVisible();
+        Text text2 = new Text("Trvanie hry: " + gameDuration, 20, 140);
+        text2.changeFont("Arial", FontStyle.BOLD, 22);
+        text2.makeVisible();
     }
 
     private void moveLineDownFromIndex(int firstLineToMove)  {
