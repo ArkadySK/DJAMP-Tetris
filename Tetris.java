@@ -15,7 +15,7 @@ public class Tetris {
     public Tetris() {
         this.shapes = new ArrayList<>();
         this.manager = new Manager();
-        this.currentShape = new Shape(ShapeType.T, 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
+        this.currentShape = new Shape(ShapeType.O, 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
         manager.manageObject(this);
     }
 
@@ -39,19 +39,31 @@ public class Tetris {
         for (int line = 0; line < Tetris.SCREEN_HEIGHT; line++) {
             if(this.isLineFull(line))   {
                 this.clearLine(line);
+                this.moveLineDownFromIndex(line - 1);
             }
         }
 
         this.currentShape.moveDown();
     }
 
+    private void moveLineDownFromIndex(int firstLineToMove)  {
+        for (Shape shape : this.shapes) {
+            ArrayList<Block> parts = shape.getParts();
+
+            for (Block block : parts) {
+                if (block.getY() <= firstLineToMove)
+                    block.moveDown();
+            }
+        }
+    }
+
     private void clearLine(int line) {
-        for (Shape shape : shapes) {
+        for (Shape shape : this.shapes) {
             ArrayList<Block> parts = shape.getParts();
             ArrayList<Block> partsToRemove = new ArrayList<Block>();
             
             for (Block block : parts) {
-                if(block.getY() == line)
+                if (block.getY() == line)
                     partsToRemove.add(block);
             }
 
@@ -108,9 +120,15 @@ public class Tetris {
         this.currentShape.moveRight();
     }
 
-    private void addNewShape() {
+    private void addNewShapeDEFAULT() {
         this.shapes.add(this.currentShape);
         this.currentShape = new Shape(ShapeType.values()[new Random().nextInt(7)], 2, 2, this.colors[new Random().nextInt(this.colors.length)]);
+    }
+
+    // TODO remove this shit
+    private void addNewShape() {
+        this.shapes.add(this.currentShape);
+        this.currentShape = new Shape(ShapeType.O, 4, 4, this.colors[new Random().nextInt(this.colors.length)]);
     }
 
     public static void main(String[] args) {
