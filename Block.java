@@ -49,4 +49,8 @@ public class Block {
         this.x--;
         this.square.moveHorizontal(-BLOCK_SIZE);
     }
+
+    public void hide() {
+        this.square.makeInvisible();
+    }
 }
