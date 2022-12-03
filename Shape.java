@@ -44,4 +44,42 @@ public class Shape {
         }
     }
 
+    public boolean collideWithGround() {
+        for (Block current : this.parts) {
+            if (current.getY() + 1 >= 20) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public CollisionSide collideWithSide() {
+        for (Block current : this.parts) {
+            if (current.getX() - 1 < 0) {
+                return CollisionSide.LEFT;
+            }
+            if (current.getX() + 1 >= 10) {
+                return CollisionSide.RIGHT;
+            }
+        }
+        return CollisionSide.NONE;
+    }
+
+    public CollisionSide collideWith(Shape other) {
+        CollisionSide side = CollisionSide.NONE;
+        for (Block current : this.parts) {
+            for (Block square : other.parts) {
+                if (square.getX() == current.getX() && square.getY() == current.getY() + 1) {
+                    side = CollisionSide.DOWN;
+                }
+                if (square.getX() == current.getX() + 1 && square.getY() == current.getY()) {
+                    side = CollisionSide.RIGHT;
+                }
+                if (square.getX() == current.getX() - 1 && square.getY() == current.getY()) {
+                    side =  CollisionSide.LEFT;
+                }
+            }
+        }
+        return side;
+    }
 }
