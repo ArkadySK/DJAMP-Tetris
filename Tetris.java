@@ -10,8 +10,10 @@ public class Tetris {
     private Shape currentShape;
     private final Manager manager;
     private final ArrayList<Shape> shapes;
-    private boolean isGameOver;
     
+    private GameUI gameUI;
+    private boolean isGameOver;
+
     public static final int SCREEN_WIDTH = 10;
     public static final int SCREEN_HEIGHT = 20;
 
@@ -21,6 +23,7 @@ public class Tetris {
         this.manager = new Manager();
         this.currentShape = new Shape(ShapeType.T, Tetris.SCREEN_WIDTH / 2 - 1, 1, this.colors[new Random().nextInt(this.colors.length)]);
         manager.manageObject(this);
+        this.gameUI = new GameUI();
     }
 
     public void tick() {
@@ -86,6 +89,8 @@ public class Tetris {
     }
     
     private void addNewShape() {
+        // pridaj aktualny tvar do zoznamu tvarov a pripocitaj skore
+        this.gameUI.setScore(this.gameUI.getScore() + 1);
         this.shapes.add(this.currentShape);
         
         var shapeToSpawn = new Shape(ShapeType.values()[new Random().nextInt(7)], Tetris.SCREEN_WIDTH / 2 - 1, 1, this.colors[new Random().nextInt(this.colors.length)]);
@@ -110,19 +115,19 @@ public class Tetris {
             shape.hide();
         }
         this.currentShape.hide();
+        this.gameUI.clear();
 
         // UI po konci hry
-        int score = 0;
         String gameDuration = "0:15";
                 
         Text headerText = new Text("Koniec hry!", 60, 50);
         headerText.changeFont("Arial", FontStyle.BOLD, 32);
         headerText.makeVisible();
-        Text text = new Text("Vaše skóre: " + score, 20, 100);
-        text.changeFont("Arial", FontStyle.BOLD, 22);
+        Text text = new Text("Vaše skóre: " + this.gameUI.getScore(), 20, 100);
+        text.changeFont("Arial", FontStyle.PLAIN, 22);
         text.makeVisible();
         Text text2 = new Text("Trvanie hry: " + gameDuration, 20, 140);
-        text2.changeFont("Arial", FontStyle.BOLD, 22);
+        text2.changeFont("Arial", FontStyle.PLAIN, 22);
         text2.makeVisible();
     }
 
