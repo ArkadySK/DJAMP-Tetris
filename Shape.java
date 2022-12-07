@@ -48,6 +48,26 @@ public class Shape {
         }
     }
 
+    public void rotateLeft() {
+        for (Block block : this.parts) {
+            int dX = this.x + 1 - block.getX();
+            int dY = this.y - block.getY();
+
+            block.setY(dX + this.y);
+            block.setX(dY*-1 + this.x + 1);
+        }
+    }
+
+    public void rotateRight() {
+        for (Block block : this.parts) {
+            int dX = this.x + 1 - block.getX();
+            int dY = this.y - block.getY();
+
+            block.setY(dX*-1 + this.y);
+            block.setX(dY + this.x + 1);
+        }
+    }
+
     public boolean collideWithGround() {
         for (Block current : this.parts) {
             if (current.getY() + 1 >= Tetris.SCREEN_HEIGHT) {
@@ -74,7 +94,7 @@ public class Shape {
         for (Block current : this.parts) {
             for (Block square : other.parts) {
                 if (square.getX() == current.getX() && square.getY() == current.getY() + 1) {
-                    side = CollisionSide.DOWN;
+                    return CollisionSide.DOWN;
                 }
                 if (square.getX() == current.getX() + 1 && square.getY() == current.getY()) {
                     side = CollisionSide.RIGHT;

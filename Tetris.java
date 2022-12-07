@@ -92,6 +92,14 @@ public class Tetris {
         }
         this.currentShape.moveRight();
     }
+
+    public void rotateLeft() {
+        this.currentShape.rotateLeft();
+    }
+
+    public void rotateRight() {
+        this.currentShape.rotateRight();
+    }
     
     private void addNewShape() {
         // pridaj aktualny tvar do zoznamu tvarov a pripocitaj skore
