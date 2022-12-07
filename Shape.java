@@ -24,26 +24,26 @@ public class Shape {
     }
 
     public ArrayList<Block> getParts() {
-        return parts;
+        return this.parts;
     }
 
     public void moveDown() {
         this.y++;
-        for (Block part : parts) {
+        for (Block part : this.parts) {
             part.moveDown();
         }
     }
 
     public void moveLeft() {
         this.x--;
-        for (Block part : parts) {
+        for (Block part : this.parts) {
             part.moveLeft();
         }
     }
 
     public void moveRight() {
         this.x++;
-        for (Block part : parts) {
+        for (Block part : this.parts) {
             part.moveRight();
         }
     }
@@ -54,7 +54,7 @@ public class Shape {
             int dY = this.y - block.getY();
 
             block.setY(dX + this.y);
-            block.setX(dY*-1 + this.x + 1);
+            block.setX(dY * -1 + this.x + 1);
         }
     }
 
@@ -63,7 +63,7 @@ public class Shape {
             int dX = this.x + 1 - block.getX();
             int dY = this.y - block.getY();
 
-            block.setY(dX*-1 + this.y);
+            block.setY(dX * -1 + this.y);
             block.setX(dY + this.x + 1);
         }
     }
@@ -80,7 +80,7 @@ public class Shape {
     public CollisionSide collideWithSide() {
         for (Block current : this.parts) {
             if (current.getX() - 1 < 0) {
-               return CollisionSide.LEFT;
+                return CollisionSide.LEFT;
             }
             if (current.getX() + 1 >= Tetris.SCREEN_WIDTH) {
                 return CollisionSide.RIGHT;

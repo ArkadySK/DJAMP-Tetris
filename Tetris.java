@@ -23,13 +23,14 @@ public class Tetris {
         this.shapes = new ArrayList<>();
         this.manager = new Manager();
         this.currentShape = new Shape(ShapeType.T, Tetris.SCREEN_WIDTH / 2 - 1, 1, this.colors[new Random().nextInt(this.colors.length)]);
-        manager.manageObject(this);
+        this.manager.manageObject(this);
         this.gameUI = new GameUI();
     }
 
     public void tick() {
-        if(this.isGameOver)
+        if (this.isGameOver) {
             return;
+        }
         this.moveDown();
     }
 
@@ -38,23 +39,24 @@ public class Tetris {
     }
 
     public void moveDown() {
-        if(this.isGameOver)
+        if (this.isGameOver) {
             return;
+        }
         
-        if (currentShape.collideWithGround()) {
+        if (this.currentShape.collideWithGround()) {
             this.addNewShape();
             return;
         }
 
         for (Shape other : this.shapes) {
-            if (currentShape.collideWith(other) == CollisionSide.DOWN) {
+            if (this.currentShape.collideWith(other) == CollisionSide.DOWN) {
                 this.addNewShape();
                 return;
             }
         }
 
         for (int line = 0; line < Tetris.SCREEN_HEIGHT; line++) {
-            if(this.isLineFull(line))   {
+            if (this.isLineFull(line)) {
                 this.clearLine(line);
                 this.moveLineDownFromIndex(line - 1);
             }
@@ -64,14 +66,15 @@ public class Tetris {
     }
 
     public void moveLeft() {
-        if(this.isGameOver)
+        if (this.isGameOver) {
             return;
+        }
         
-        if (currentShape.collideWithSide() == CollisionSide.LEFT) {
+        if (this.currentShape.collideWithSide() == CollisionSide.LEFT) {
             return;
         }
         for (Shape other : this.shapes) {
-            if (currentShape.collideWith(other) == CollisionSide.LEFT) {
+            if (this.currentShape.collideWith(other) == CollisionSide.LEFT) {
                 return;
             }
         }
@@ -79,14 +82,15 @@ public class Tetris {
     }
 
     public void moveRight() {
-        if(this.isGameOver)
+        if (this.isGameOver) {
             return;
+        }
         
-        if (currentShape.collideWithSide() == CollisionSide.RIGHT) {
+        if (this.currentShape.collideWithSide() == CollisionSide.RIGHT) {
             return;
         }
         for (Shape other : this.shapes) {
-            if (currentShape.collideWith(other) == CollisionSide.RIGHT) {
+            if (this.currentShape.collideWith(other) == CollisionSide.RIGHT) {
                 return;
             }
         }
@@ -148,8 +152,9 @@ public class Tetris {
             ArrayList<Block> parts = shape.getParts();
 
             for (Block block : parts) {
-                if (block.getY() <= firstLineToMove)
+                if (block.getY() <= firstLineToMove) {
                     block.moveDown();
+                }
             }
         }
     }
@@ -160,8 +165,9 @@ public class Tetris {
             ArrayList<Block> partsToRemove = new ArrayList<Block>();
             
             for (Block block : parts) {
-                if (block.getY() == line)
+                if (block.getY() == line) {
                     partsToRemove.add(block);
+                }
             }
 
             for (Block block : partsToRemove) {
@@ -173,18 +179,21 @@ public class Tetris {
 
     private boolean isLineFull(int line)    {
         boolean isFull = true;
-            for (int i = 0; i < Tetris.SCREEN_WIDTH; i++)  
-                if(!this.isPositionFilled(i, line))
-                    isFull = false;
+        for (int i = 0; i < Tetris.SCREEN_WIDTH; i++) {
+            if (!this.isPositionFilled(i, line)) {
+                isFull = false;
+            }
+        }
         return isFull;
     }
 
     private boolean isPositionFilled(int x, int y)   {
-        for (Shape shape : shapes) {
+        for (Shape shape : this.shapes) {
             ArrayList<Block> parts = shape.getParts();
             for (Block block : parts) {
-                if(block.getX() == x && block.getY() == y)
+                if (block.getX() == x && block.getY() == y) {
                     return true;
+                }
             }
         }
         return false;
