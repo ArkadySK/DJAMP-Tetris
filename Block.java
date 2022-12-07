@@ -25,6 +25,16 @@ public class Block {
         return y;
     }
 
+    public void setX(int x) {
+        this.square.moveHorizontal(-this.x * BLOCK_SIZE + x * BLOCK_SIZE);
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.square.moveVertical(-this.y * BLOCK_SIZE + y * BLOCK_SIZE);
+        this.y = y;
+    }
+
     public void moveDown() {
         this.y++;
         this.square.moveVertical(BLOCK_SIZE);
