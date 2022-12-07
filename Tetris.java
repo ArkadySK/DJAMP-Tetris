@@ -13,6 +13,7 @@ public class Tetris {
     
     private GameUI gameUI;
     private boolean isGameOver;
+    private int gameDuration;
 
     public static final int SCREEN_WIDTH = 10;
     public static final int SCREEN_HEIGHT = 20;
@@ -30,6 +31,10 @@ public class Tetris {
         if(this.isGameOver)
             return;
         this.moveDown();
+    }
+
+    public void secondTick() {
+        this.gameDuration++;
     }
 
     public void moveDown() {
@@ -118,15 +123,14 @@ public class Tetris {
         this.gameUI.clear();
 
         // UI po konci hry
-        String gameDuration = "0:15";
-                
         Text headerText = new Text("Koniec hry!", 60, 50);
         headerText.changeFont("Arial", FontStyle.BOLD, 32);
         headerText.makeVisible();
         Text text = new Text("Vaše skóre: " + this.gameUI.getScore(), 20, 100);
         text.changeFont("Arial", FontStyle.PLAIN, 22);
         text.makeVisible();
-        Text text2 = new Text("Trvanie hry: " + gameDuration, 20, 140);
+        String totalTime = String.format("%d:%d", this.gameDuration / 60, this.gameDuration % 60);
+        Text text2 = new Text("Trvanie hry: " + totalTime, 20, 140);
         text2.changeFont("Arial", FontStyle.PLAIN, 22);
         text2.makeVisible();
     }
